@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UFT-8">
+		<meta name="viewport">
+		<title>Code Lab</title>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<style>
+			.main-container{
+				background-color:#EBF0EF;
+				padding-top:100px;
+			}
+			.product-type{
+				padding-top:25px;
+				padding-bottom:25px;
+				margin-bottom:50px;
+				
+				font-weight:800;
+				border:10px solid #fff;
+			}
+			.product-type p{
+				font-size:45px;
+				color:#E5989B;
+			}
+			h3{
+				color:#5A5660;
+				font-size:24px;
+				font-weight:500;
+			}
+			h4{
+				color:#A57881;
+			}
+			p{
+				color:#5A5660;
+				font-size:18px;
+			}
+			.panel-hvr:hover{
+				box-shadow: 0 0 15px 1px rgba(90, 86, 96, 0.4);
+				-webkit-transform: scale(1.03);
+				transform: scale(1.03);
+				text-decoration:none;
+	
+			}
+			
+		</style>
+    </head>
+    <body class="main-container">
+		<script src="jquery.js"></script>
+		<script src="https://unpkg.com/vue@2.4.2"></script>
+		<script src="day3hw.js"></script>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 product-type"><p class="text-center">Listing Of Mascaras</p></div>
+				<div id="root">
+					<makeup v-for="mascara in makeup" :brand="mascara.brand" :name="mascara.name" :price="mascara.price" :image_link="mascara.image_link"  :rating="mascara.rating" :product_colors="mascara.product_colors" :product_api_url="mascara.product_api_url"></makeup>
+				</div>
+			</div>
+		</div>
+		
+		
+		<script>
+			var vm = new Vue({
+				el: '#root',
+				data: {
+					makeup:[],
+					},
+				mounted:function(){
+					this.getMascara();
+				},
+				
+				methods:{
+					getMascara(){
+						$.ajax({
+                    url: 'http://makeup-api.herokuapp.com/api/v1/products.json?product_type=mascara',
+                    type: "GET", /* or type:"GET" or type:"PUT" */
+                    dataType: "json",
+                    success: function (result) {
+                        vm.makeup = result;
+                        console.log(result);
+                    },
+                    error: function () {
+                        console.log("error");
+                    }
+                });
+					}
+				}  
+			});
+		</script>
+		
+		
+		
+  </body>
+</html>
